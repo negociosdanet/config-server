@@ -1,0 +1,27 @@
+
+server:
+  port: ${PORT:8888}
+
+# Spring config
+spring:
+  profiles:
+    active: native
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+         uri: https://github.com/negociosdanet/microservice-repo
+         # search-paths: fornecedor
+         
+info:
+  component: Config server
+  app:
+    name: '@project.name@'
+    description: '@project.description@'
+    version: '@project.version@'
+    encoding: '@project.build.sourceEncoding@'
+    java.version: '@java.version@'
+    
+  
