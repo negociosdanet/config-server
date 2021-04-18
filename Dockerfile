@@ -16,7 +16,7 @@ USER javauser
 COPY /target/config-server.jar /app
 COPY /.docker/entrypoint.sh /app
 
-ENTRYPOINT [ "java", "-jar", "/app/config-server.jar" ]
+ENTRYPOINT [ "sh", "/app/entrypoint.sh" ]
 CMD [ "/bin/bash" ]
 
 EXPOSE 8888

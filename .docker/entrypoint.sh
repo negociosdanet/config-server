@@ -1,3 +1,3 @@
 #!/bin/bash
 
-java -jar /config-server.jar
+java -jar /app/config-server.jar
