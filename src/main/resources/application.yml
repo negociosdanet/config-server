@@ -13,8 +13,7 @@ spring:
       server:
         git:
          uri: https://github.com/negociosdanet/microservice-repo
-         # search-paths: fornecedor
-         
+         # search-paths: fornecedor   
 info:
   component: Config server
   app:
@@ -23,5 +22,3 @@ info:
     version: '@project.version@'
     encoding: '@project.build.sourceEncoding@'
     java.version: '@java.version@'
-    
-  

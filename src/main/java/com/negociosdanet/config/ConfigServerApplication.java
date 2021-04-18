@@ -17,7 +17,7 @@ public class ConfigServerApplication {
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
-				log.info("Shutdown confi-server");
+				log.info("Shutdown config-server");
 			}
 		});
 	}
