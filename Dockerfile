@@ -9,9 +9,14 @@ FROM openjdk:8-jdk-alpine
 RUN mkdir /app
 WORKDIR /app
 
-COPY /target/config-server.jar /app/config-server.jar
-COPY /.docker/entrypoint.sh /app/entrypoint.sh
+RUN addgroup --system javauser && adduser -S -s /bin/false -G javauser javauser
+RUN chown -R javauser:javauser /app
+USER javauser
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+COPY /target/config-server.jar /app
+COPY /.docker/entrypoint.sh /app
 
-EXPOSE 8084
+ENTRYPOINT [ "java", "-jar", "/app/config-server.jar" ]
+CMD [ "/bin/bash" ]
+
+EXPOSE 8888
