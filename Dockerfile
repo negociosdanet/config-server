@@ -7,9 +7,11 @@
 FROM openjdk:8-jdk-alpine
 
 RUN mkdir /app
-COPY /target/config-server.jar /app/config-server.jar
 WORKDIR /app
 
-ENTRYPOINT [ "java", "-jar", "/config-server.jar" ]
+COPY /target/config-server.jar /app/config-server.jar
+COPY /.docker/entrypoint.sh /app/entrypoint.sh
+
+ENTRYPOINT [ "/entrypoint.sh" ]
 
 EXPOSE 8084
