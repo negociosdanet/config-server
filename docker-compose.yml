@@ -1,9 +1,15 @@
-version: '3'
+version: '3.3'
 
 services:
   config-server:
     container_name: config-server
-    image: mariosergioas/config-server
+    image: mariosergioas/config-server:latest
     restart: always
     ports:
       - 8888:8888
+    networks: 
+      - negociosdanet
+
+networks:
+  negociosdanet:
+    external: true

@@ -8,6 +8,10 @@ spring:
     active: native
   application:
     name: config-server
+  boot:
+    admin:
+      client:
+        url: http://monitoring-service:8083 
   cloud:
     config:
       server:
