@@ -7,18 +7,12 @@ pipeline {
 
     stages {
 
-        /*stage('clone') {
-            steps {
-                git branch: 'development',
-                    url: 'https://github.com/negociosdanet/config-server.git'
-            }
-        }*/
-
         stage('build') {
             steps {
                 script { 
-                    sh 'mvn -B package -DskipTests --file pom.xml'
                     pomVersion = readMavenPom file: 'pom.xml'
+                    pomVersion = pomVersion.version
+                    sh 'mvn -B package -DskipTests --file pom.xml'
                     print pomVersion
                 }
             }
@@ -26,9 +20,11 @@ pipeline {
 
         stage('unit test') {
             steps {
-                sh 'mvn -B test --file pom.xml'
-                junit '**//*target/surefire-reports/TEST-*.xml'
-                archive 'target*//*.jar'
+                script { 
+                    sh 'mvn -B test --file pom.xml'
+                    junit '**//*target/surefire-reports/TEST-*.xml'
+                    archive 'target*//*.jar'
+                }
             }
         }
 
@@ -41,6 +37,22 @@ pipeline {
         stage('docker push') {
             steps {
                 sh 'docker push -t mariosergioas/config-server:${{pomVersion}}'
+            }
+        }
+
+        stage('deploy to dev') {
+            steps {
+                print 'deploy'
+            }
+        }
+
+        stage('deploy to UAT') {
+            steps {
+                script {
+                    timeout(time: 3, unit: 'MINUTES') {
+                        input message: 'Approve deployment to UAT?'
+                    }
+                }
             }
         }
     }
