@@ -15,20 +15,30 @@ pipeline {
         stage('build') {
             steps {
                 sh 'mvn -B package -DskipTests --file pom.xml'
+                def pom = readMavenPom file: 'pom.xml'
+                print pom.version
             }
         }
 
         stage('unit test') {
             steps {
                 sh 'mvn -B test --file pom.xml'
-                junit '**/target/surefire-reports/TEST-*.xml'
-                archiveArtifacts 'target/*.jar'
+                junit '**//*target/surefire-reports/TEST-*.xml'
+                archive 'target*//*.jar'
             }
         }
 
-        stage('docker --version') {
+        stage('docker build') {
             steps {
-                sh 'docker --version'
+                def pom = readMavenPom file: 'pom.xml'
+                sh 'docker build . -t mariosergioas/config-server:${{pom.version}}'
+            }
+        }
+
+        stage('docker build') {
+            steps {
+                def pom = readMavenPom file: 'pom.xml'
+                sh 'docker push -t mariosergioas/config-server:${{pom.version}}'
             }
         }
     }
