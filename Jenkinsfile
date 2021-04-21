@@ -1,3 +1,5 @@
+def pomVersion = ""
+
 pipeline {
     agent { 
         docker { image 'maven:3.3.3' }
@@ -15,8 +17,8 @@ pipeline {
         stage('build') {
             steps {
                 sh 'mvn -B package -DskipTests --file pom.xml'
-                def pom = readMavenPom file: 'pom.xml'
-                print pom.version
+                pomVersion = readMavenPom file: 'pom.xml'
+                print pomVersion
             }
         }
 
@@ -30,15 +32,13 @@ pipeline {
 
         stage('docker build') {
             steps {
-                def pom = readMavenPom file: 'pom.xml'
-                sh 'docker build . -t mariosergioas/config-server:${{pom.version}}'
+                sh 'docker build . -t mariosergioas/config-server:${{pomVersion}}'
             }
         }
 
-        stage('docker build') {
+        stage('docker push') {
             steps {
-                def pom = readMavenPom file: 'pom.xml'
-                sh 'docker push -t mariosergioas/config-server:${{pom.version}}'
+                sh 'docker push -t mariosergioas/config-server:${{pomVersion}}'
             }
         }
     }
