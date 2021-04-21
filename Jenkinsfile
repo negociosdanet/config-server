@@ -16,9 +16,11 @@ pipeline {
 
         stage('build') {
             steps {
-                sh 'mvn -B package -DskipTests --file pom.xml'
-                pomVersion = readMavenPom file: 'pom.xml'
-                print pomVersion
+                script { 
+                    sh 'mvn -B package -DskipTests --file pom.xml'
+                    pomVersion = readMavenPom file: 'pom.xml'
+                    print pomVersion
+                }
             }
         }
 
