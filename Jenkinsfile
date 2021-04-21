@@ -12,8 +12,8 @@ pipeline {
                 script { 
                     pomVersion = readMavenPom file: 'pom.xml'
                     pomVersion = pomVersion.version
-                    sh 'mvn -B package -DskipTests --file pom.xml'
                     print pomVersion
+                    sh 'mvn -B package -DskipTests --file pom.xml'
                 }
             }
         }
@@ -30,13 +30,13 @@ pipeline {
 
         stage('docker build') {
             steps {
-                sh 'docker build . -t mariosergioas/config-server:${{pomVersion}}'
+                sh "docker build . -t mariosergioas/config-server:${pomVersion}"
             }
         }
 
         stage('docker push') {
             steps {
-                sh 'docker push -t mariosergioas/config-server:${{pomVersion}}'
+                sh "docker push -t mariosergioas/config-server:${pomVersion}"
             }
         }
 
