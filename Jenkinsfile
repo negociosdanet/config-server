@@ -1,4 +1,4 @@
-pipeline {
+node {
     agent { label 'java8' }
     environment {
         EMAIL_RECIPIENTS = 'mariosergio952@hotmail.com.br'
