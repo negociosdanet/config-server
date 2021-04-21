@@ -23,7 +23,7 @@ pipeline {
                 script { 
                     sh 'mvn -B test --file pom.xml'
                     junit '**//*target/surefire-reports/TEST-*.xml'
-                    archive 'target*//*.jar'
+                    archiveArtifacts 'target*//*.jar'
                 }
             }
         }
