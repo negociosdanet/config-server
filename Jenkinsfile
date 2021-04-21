@@ -36,7 +36,7 @@ pipeline {
 
         stage('docker push') {
             steps {
-                sh "docker push -t mariosergioas/config-server:${pomVersion}"
+                sh "docker push mariosergioas/config-server:${pomVersion}"
             }
         }
 
