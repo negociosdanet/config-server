@@ -1,4 +1,7 @@
+def pom = ""
 def pomVersion = ""
+def projectName = ""
+def aliasNameDocker = "mariosergioas"
 
 pipeline {
     agent { 
@@ -7,18 +10,19 @@ pipeline {
 
     stages {
 
-        stage('build') {
+        stage('Build') {
             steps {
                 script { 
-                    pomVersion = readMavenPom file: 'pom.xml'
-                    pomVersion = pomVersion.version
+                    pom = readMavenPom file: 'pom.xml'
+                    pomVersion = pom.version
+                    projectName = pom.name
                     print pomVersion
                     sh 'mvn -B package -DskipTests --file pom.xml'
                 }
             }
         }
 
-        stage('unit test') {
+        stage('Unit tests') {
             steps {
                 script { 
                     sh 'mvn -B test --file pom.xml'
@@ -30,27 +34,39 @@ pipeline {
 
         stage('docker build') {
             steps {
-                sh "docker build . -t mariosergioas/config-server:${pomVersion}"
+                sh "docker build . -t ${aliasNameDocker}/${projectName}:${pomVersion}"
             }
         }
 
         stage('docker push') {
             steps {
-                sh "docker push mariosergioas/config-server:${pomVersion}"
+                sh "docker push ${aliasNameDocker}/${projectName}:${pomVersion}"
             }
         }
 
-        stage('deploy to dev') {
+        stage('Development deploy') {
             steps {
-                print 'deploy'
+                script {
+                    print 'deploy'
+                }
             }
         }
 
-        stage('deploy to UAT') {
+        stage('Homologation deploy') {
             steps {
                 script {
                     timeout(time: 3, unit: 'MINUTES') {
-                        input message: 'Approve deployment to UAT?'
+                        input message: 'Approve deployment to homologation?'
+                    }
+                }
+            }
+        }
+
+        stage('Production deploy') {
+            steps {
+                script {
+                    timeout(time: 3, unit: 'MINUTES') {
+                        input message: 'Approve deployment to production?'
                     }
                 }
             }

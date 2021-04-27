@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: config-server
+logging:
+  level:
+    org.springframework: INFO
+    org.hibernate: INFO

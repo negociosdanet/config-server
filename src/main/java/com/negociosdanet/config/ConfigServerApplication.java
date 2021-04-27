@@ -13,12 +13,7 @@ public class ConfigServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ConfigServerApplication.class, args);
-
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				log.info("Shutdown config-server");
-			}
-		});
+		Runtime.getRuntime().addShutdownHook(
+				new Thread(() -> log.info("Shutdown {}", ConfigServerApplication.class.getSimpleName())));
 	}
 }

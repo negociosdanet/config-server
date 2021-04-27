@@ -1,0 +1,16 @@
+
+server:
+  port: ${PORT:8888}
+
+# Spring config
+spring:
+  boot:
+    admin:
+      client:
+        enabled: false
+        url: http://monitoring-service:8083
+  cloud:
+    config:
+      server:
+        git:
+         uri: https://github.com/negociosdanet/microservice-repo
