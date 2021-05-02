@@ -19,4 +19,4 @@ COPY /.docker/entrypoint.sh /app
 ENTRYPOINT [ "sh", "/app/entrypoint.sh" ]
 CMD [ "/bin/bash" ]
 
-EXPOSE 8888
+EXPOSE 8080
