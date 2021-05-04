@@ -4,7 +4,7 @@
 #WORKDIR /project
 #RUN mvn clean package -DskipTests
 
-FROM openjdk:8-jdk-alpine
+FROM openjdk:8-jre-alpine
 
 RUN mkdir /app
 WORKDIR /app
